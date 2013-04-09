@@ -278,6 +278,11 @@ void loop() {
   // The Knight Rider effect
   knightRider(50, 5, 3);
   delay(loopDelay);
+
+  // Busted effect
+  busted(50, 10, 3); 
+  delay(loopDelay);
+
    
   // Flash odd only, then even only leds
   flashOdd(250, 2);
@@ -401,6 +406,49 @@ void flashEven(int duration, int count)
     delay(duration);
   }
 }  
+
+/**************************************************************
+Function: busted
+Purpose:  You just got pulled over
+Args:     int duration - how long an led is on
+          int count - how many times to repeat
+          int sidecount - how many times to flash each side
+Returns:  nothing
+Notes:
+***************************************************************/
+void busted(int duration, int count, int sidecount)
+{
+  
+  int half = ceil(NUM_LED/2);
+  for(int i = 0; i < count; i++)
+  {
+     for(int j = 0; j < sidecount; j++)
+     {
+       for(int k = 0; k < half; k++)
+         LED[k] = ON; 
+       
+       writeBytes();
+       delay(duration);
+       allOff();
+       writeBytes();
+       delay(duration);
+     }    
+       delay(duration);
+     for(int j = 0; j < sidecount; j++)
+     {
+       for(int k = NUM_LED - 1; k >= half; k--)
+         LED[k] = ON; 
+        
+       writeBytes();
+       delay(duration);
+       allOff();
+       writeBytes();
+       delay(duration);
+     }    
+       delay(duration);
+        
+  }
+}
 
 
 /**************************************************************
